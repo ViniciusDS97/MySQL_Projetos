@@ -1,0 +1,72 @@
+Projeto desenvolvido com o objetivo de criar um banco de dados com matrículas de alunos em uma universidade.
+
+create database universidade;
+
+use universidade;
+
+create table departamento (
+id int auto_increment primary key,
+nome varchar(50) not null,
+codigo varchar(50) not null,
+telefone varchar(50),
+centro varchar(50)
+);
+
+create table aluno (
+id int auto_increment primary key,
+nome varchar(50) not null,
+matricula varchar(20) not null,
+cpf varchar(14),
+rua varchar (20),
+cidade varchar (20),
+cep varchar (8),
+telefone varchar (20),
+nascimento date,
+sexo enum ('M','F'),
+departamento_id INT,
+curso varchar(50),
+FOREIGN KEY (departamento_id) REFERENCES departamento(id)
+);
+
+create table curso (
+nome varchar (50) not null,
+tipo enum ('tecnico', 'graduaçao', 'mestrado', 'doutorado'),
+departamento_id int,
+coordenador varchar (50),
+vice_coordenador varchar(50),
+foreign key (departamento_id) references departamento (id)
+);
+
+create table professor (
+nome varchar (50) not null,
+cpf varchar (14) not null,
+departamento_id int,
+telefone varchar (20),
+foreign key (departamento_id) references departamento (id)
+);
+
+create table disciplina (
+nome varchar(50) not null,
+descricao text,
+codigo varchar (50) not null,
+numero_creditos int not null,
+departamento_id int,
+foreign key (departamento_id) references departamento (id)
+);
+
+create table oferta (
+id int auto_increment primary key,
+disciplina_id int,
+professor_id int,
+horario varchar (100),
+foreign key (disciplina_id) references disciplina (id),
+foreign key (professor_id) references professor (id)
+);
+
+create table matricula_aluno (
+id int auto_increment primary key,
+aluno_id int,
+oferta_id int,
+foreign key (aluno_id) references aluno (id),
+foreign key (oferta_id) references oferta (id)
+); 
